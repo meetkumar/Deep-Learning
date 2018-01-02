@@ -45,16 +45,23 @@ from keras.layers import Dense
 classifier = Sequential()
 
 #Adding the input layer and the first hidden layer
-classifier.add(Dense(output_dim =6, init = "uniform", activation = "relu", input_dim = 11))
+classifier.add(Dense(output_dim =6, init = 'uniform', activation = 'relu', input_dim = 11))
 
 #Adding the second hidden layer
-classifier.add(Dense(output_dim =6, init = "uniform", activation = "relu"))
+classifier.add(Dense(output_dim =6, init = 'uniform', activation = 'relu'))
 
 #Adding output layer
-classifier.add(Dense(output_dim =1, init = "uniform", activation = "sigmoid"))
+classifier.add(Dense(output_dim =1, init = 'uniform', activation = 'sigmoid'))
+
+#Compiling ANN
+classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+
+#Fitting ANN to Training set
+classifier.fit(X_train, y_train, batch_size = 10, nb_epoch = 100)
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
+y_pred = (y_pred > 0.5)
 
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix
