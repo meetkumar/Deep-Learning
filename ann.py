@@ -27,7 +27,7 @@ X = onehotencoder.fit_transform(X).toarray()
 X = X[:, 1:]
 
 # Splitting the dataset into the Training set and Test set
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 0)
 
 # Feature Scaling
@@ -46,21 +46,17 @@ from keras.layers import Dropout
 classifier = Sequential()
 
 #Adding the input layer and the first hidden layer with dropout
-classifier.add(Dense(output_dim =6, init = 'uniform', activation = 'relu', input_dim = 11))
-classifier.add(Dropout(p = 0.1))
-
+classifier.add(Dense(output_dim =6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
+#classifier.add(Dropout(p = 0.1))
 #Adding the second hidden layer with dropout
-classifier.add(Dense(output_dim =6, init = 'uniform', activation = 'relu'))
-classifier.add(Dropout(p = 0.1))
-
+classifier.add(Dense(output_dim =6, kernel_initializer = 'uniform', activation = 'relu'))
+#classifier.add(Dropout(p = 0.1))
 #Adding output layer
-classifier.add(Dense(output_dim =1, init = 'uniform', activation = 'sigmoid'))
-
+classifier.add(Dense(output_dim =1, kernel_initializer = 'uniform', activation = 'sigmoid'))
 #Compiling ANN
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-
 #Fitting ANN to Training set
-classifier.fit(X_train, y_train, batch_size = 10, nb_epoch = 100)
+classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
@@ -103,3 +99,4 @@ accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, c
 
 mean = accuracies.mean()
 variance = accuracies.std()
+
